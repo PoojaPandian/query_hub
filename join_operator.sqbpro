@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/pooja/join_operator.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="968"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="0"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,4:mainemp1"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="admin" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="64"/><column index="2" value="145"/><column index="3" value="79"/><column index="4" value="117"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="emp1" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="52"/><column index="2" value="67"/><column index="3" value="52"/><column index="4" value="71"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="mrk" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="53"/><column index="2" value="84"/><column index="3" value="68"/><column index="4" value="88"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">select * from std;
+
+insert into std values(101,'harish',23,35000),
+(102,'priya',26,50000),
+(104,'ramya',30,40000);
+insert into std values(101,'harish',23,35000);
+
+select * from mrk;
+
+insert into mrk values(103,'rahul',24,30000),
+(102,'priya',26,50000),
+(104,'ramya',30,40000),
+(105,'tharu',20,55000);
+
+-- group by
+select count(m_id) from mrk group by m_id;
+-- group by with having
+select m_id,m_name from mrk group by m_id,m_name having m_age&gt;25;
+-- group by with where
+select m_id from mrk group by m_id where m_age&gt;25;   --syntax error
+select m_id, m_name from mrk where m_age&gt;25 group by m_id;   --execute successfully
+
+-- order by
+select m_id from mrk order by m_id asc;  --ascending order
+select m_id from mrk order by m_id desc;   --descending order
+select m_name from mrk order by m_id asc;
+
+-- joins
+-- (inner join)
+select * from std inner join mrk on std.s_id = mrk.m_id;  --first method
+select * from std,mrk where s_id = m_id; --alternate method
+
+--(left join)
+select * from std left join mrk on std.s_id = mrk.m_id;
+select * from mrk left join std on mrk.m_id = std.s_id;   --right join output displaying using left join 
+
+--(right join)
+select * from mrk right join std on mrk.m_id = std.s_id;
+
+--(full outer join)
+select * from mrk full outer join std on mrk.m_id = std.s_id;
+
+--(cross join)
+select count(*) as no_of_elements from mrk cross join std; --can also use aggregate functions
+select * from mrk cross join std;
+
+
+--task
+select * from std;
+select s_id,count(s_id) from std group by s_id;
+select max(s_salary) from std where s_salary not in (select max(s_salary) from std); --second maximum salary
+
+-- sub query
+select * from std where s_id in (select m_id from mrk);
+
+--UNION
+select * from std
+UNION
+select * from mrk;
+
+--union all 
+select * from std union all select * from mrk;
+
+--intersection
+select * from std INTERSECT select * from mrk;
+</sql><sql name="SQL 4">select * from emp1;
+select * from emp2;
+
+insert into emp1 values(1001, 'swathi', 22, 55000),
+(1002, 'manju', 24, 50000),
+(1003, 'prem', 26, 40000),
+(1003, 'prem', 26, 40000),
+(1006, 'raj', 30, 35000);
+
+insert into emp2 values(1001, 'swathi', 22, 55000),
+(1002, 'manju', 24, 50000),
+(1004, 'suji', 32, 45000),
+(1005, 'rahul', 30, 35000);
+
+select max(esalary) from emp1 inner join emp2 where salary not in (select max(salary) from emp2) ;
+
+select max(esalary) from emp1 inner join emp2 where salary not in (select max(salary) from emp2) ;
+
+--case statement 
+select eid,eage, case when eage&gt;=25 then 'you are permit to enter' else 'you are not permit to enter' end as AGE from emp1;
+select eid,eage, case when eage&lt;=25 then 'you are permit to enter' when eage=26 then 'you are permit with some condition' else 'you are not permit to enter' end as AGE from emp1;</sql><sql name="SQL 7">select * from emp2;
+insert into emp2 values('1020', 'Ram Prakash', 24, 20000),
+('1021', 'yamini jaya chandran', 30, 40000),
+(1023, 'manju priya', 23, 55000);
+
+select substr('substring', 3,5) from emp2;
+select substr('substring',2,5) from emp2 where id=1020;
+select substr('sub string',3,5) from emp2 where id=1020;
+select length(substr('substring',2,5)) from emp2 where id=1020;
+
+select instr('sub.str','.') from emp2;
+select instr('sub@str','@') from emp2;
+
+select substr(name,1,length(name)) from emp2;
+
+select name, instr(name,' ')from emp2;
+select name, (instr(name,' ')-1)from emp2;
+
+select name, substr(name,1,(instr(name,' ')-1))from emp2;
+select name, substr(name,1,(instr(name,' ')+1))from emp2;
+
+select name, substr(name,(instr(name,' ')+1)) as lastname from emp2;
+select name, substr(name,(instr(name,' ')+6)) as lastname from emp2;
+
+select name,(substr(name,1,(instr(name,' ')-1))) as firstname, (substr(name,(instr(name,' ')+1))) as lastname from emp2;
+select name,(substr(name,1,(instr(name,' ')-1))) firstname, (substr(name,(instr(name,' ')+1))) lastname from emp2;
+
+</sql><sql name="SQL 5">select * from emp2;
+
+insert into emp2 values('1020', 'Ram Prakash', 24, 20000),
+('1021', 'yamini jaya chandran', 30, 40000);
+
+update emp2 set salary = 20000 where age = 24;
+update emp2 set salary = 40000 where age = 30;
+--update 
+update emp2 set salary = 25000 where age = 24;
+update emp2 set age = 22 where salary = 55000;
+update emp2 set salary = 40000 where age = 32;
+update emp2 set age = 32 where salary = 40000;
+
+--delete
+delete from emp2 where id in (1020, 1021);
+
+select count(*), salary, age from emp2 group by salary, age;
+
+select count(*), salary, age from emp2 group by salary, age having salary &gt; avg(salary);
+
+select avg(salary) from emp2;
+
+select count(salary), age from emp2 group by age having salary &gt; avg(salary);
+
+select salary &gt; avg(salary), age from emp2 where salary in (select avg(salary) from emp2 group by age);
+
+select salary &gt; avg(salary),avg(salary), age from emp2 group by age; -- salary &gt; avg(salary)in each age group - (just shows the count of avg salary)
+
+select salary, id, age from emp2 a where salary &gt; (select avg(salary) from emp2 b where a.age = b.age);  -- salary &gt; avg(salary)in each age group using self join 
+
+select a.salary, a.id, a.age from emp2 a where salary &gt; (select avg(salary) from emp2 b group by age);  -- group by doesnt work in this condition</sql><current_tab id="3"/></tab_sql></sqlb_project>
